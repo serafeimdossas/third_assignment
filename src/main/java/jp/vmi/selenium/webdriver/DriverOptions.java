@@ -448,59 +448,77 @@ public class DriverOptions {
             consumer.accept(cap.getKey(), cap.getValue());
     }
 
+    private String toStringMapPart() {
+        StringBuilder result = new StringBuilder("");
+        for (DriverOption opt : DriverOption.values()) {
+            switch (opt) {
+            case DEFINE:
+            case ALERTS_POLICY:
+                // skip
+                break;
+            case CLI_ARGS:
+                if (cliArgs.length != 0) {
+                    result.append(opt.optionName()).append('=');
+                    for (String extraOption : cliArgs)
+                        result.append(extraOption).append(',');
+                    result.setCharAt(result.length() - 1, '|');
+                }
+                break;
+            case CHROME_EXTENSION:
+                if (!chromeExtensions.isEmpty()) {
+                    result.append(opt.optionName()).append('=');
+                    for (File extraOption : chromeExtensions)
+                        result.append(extraOption.toString()).append(',');
+                    result.setCharAt(result.length() - 1, '|');
+                }
+                break;
+            default:
+                if (map.containsKey(opt))
+                    result.append(opt.optionName()).append('=').append(map.get(opt)).append('|');
+                break;
+            }
+        }
+        result.deleteCharAt(result.length() - 1);
+        return result.toString();
+    }
+
+    private String toStringCapsPart(Map<String, Object> capsMap) {
+        StringBuilder result = new StringBuilder("");
+        eachCapabilities(capsMap, (key, value) -> {
+            if (value instanceof Object[])
+                value = LangUtils.join(", ", Arrays.stream((Object[]) value));
+            result.append("  ").append(key).append('=').append(value).append("\n");
+        });
+        result.append(']');
+        return result.toString();
+    }
+
+    private String toStringEnvsPart(String sep) {
+        StringBuilder result = new StringBuilder("");
+        result.append(sep).append("ENV_VARS=[\n");
+        List<Entry<String, String>> envVarsList = new ArrayList<>(envVars.entrySet());
+        Collections.sort(envVarsList, mapEntryComparator);
+        for (Entry<String, String> envVar : envVarsList)
+            result.append("  ").append(envVar.getKey()).append('=').append(envVar.getValue()).append("\n");
+        result.append(']');
+        return result.toString();
+    }
+
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder("[");
         String sep = "";
         if (!map.isEmpty()) {
-            for (DriverOption opt : DriverOption.values()) {
-                switch (opt) {
-                case DEFINE:
-                case ALERTS_POLICY:
-                    // skip
-                    break;
-                case CLI_ARGS:
-                    if (cliArgs.length != 0) {
-                        result.append(opt.optionName()).append('=');
-                        for (String extraOption : cliArgs)
-                            result.append(extraOption).append(',');
-                        result.setCharAt(result.length() - 1, '|');
-                    }
-                    break;
-                case CHROME_EXTENSION:
-                    if (!chromeExtensions.isEmpty()) {
-                        result.append(opt.optionName()).append('=');
-                        for (File extraOption : chromeExtensions)
-                            result.append(extraOption.toString()).append(',');
-                        result.setCharAt(result.length() - 1, '|');
-                    }
-                    break;
-                default:
-                    if (map.containsKey(opt))
-                        result.append(opt.optionName()).append('=').append(map.get(opt)).append('|');
-                    break;
-                }
-            }
-            result.deleteCharAt(result.length() - 1);
+            result.append(toStringMapPart());
             sep = "|";
         }
         Map<String, Object> capsMap = caps.asMap();
         if (!capsMap.isEmpty()) {
-            eachCapabilities(capsMap, (key, value) -> {
-                if (value instanceof Object[])
-                    value = LangUtils.join(", ", Arrays.stream((Object[]) value));
-                result.append("  ").append(key).append('=').append(value).append("\n");
-            });
-            result.append(']');
+            result.append(toStringCapsPart(capsMap));
             sep = "|";
         }
         if (!envVars.isEmpty()) {
-            result.append(sep).append("ENV_VARS=[\n");
-            List<Entry<String, String>> envVarsList = new ArrayList<>(envVars.entrySet());
-            Collections.sort(envVarsList, mapEntryComparator);
-            for (Entry<String, String> envVar : envVarsList)
-                result.append("  ").append(envVar.getKey()).append('=').append(envVar.getValue()).append("\n");
-            result.append(']');
+            result.append(toStringEnvsPart(sep));
         }
         result.append(']');
         return result.toString();
