@@ -1,0 +1,34 @@
+*.log
+*.jpage
+TestTest.java
+TEST-*.xml
+pom.xml.releaseBackup
+release.properties
+/target
+/tmp
+/logs
+/drivers
+/gh-pages
+
+# Eclipse
+.classpath
+.project
+.settings/org.eclipse.m2e.core.prefs
+
+# IntelliJ
+.idea/
+*.iml
+
+# Netbeans
+/nbproject
+
+# Emacs
+*~
+\#*
+.\#*
+
+# vim
+*.swp
+
+# OS X
+.DS_Store
