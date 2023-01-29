@@ -141,17 +141,10 @@ public abstract class WebDriverFactory {
     public abstract WebDriver newInstance(DriverOptions driverOptions);
 
     protected void setInitialWindowSize(WebDriver driver, DriverOptions driverOptions) {
-        Dimension size;
-        if (driverOptions.has(WIDTH) || driverOptions.has(HEIGHT)) {
-            int width = NumberUtils.toInt(driverOptions.get(WIDTH), DEFAULT_WIDTH);
-            int height = NumberUtils.toInt(driverOptions.get(HEIGHT), DEFAULT_HEIGHT);
-            size = new Dimension(width, height);
-        } else {
-            size = getDefaultWindowSize(driver);
-            if (size == null) {
-                log.info("Initial window size: system default");
-                return;
-            }
+        Dimension size = driverOptions.getSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+        if (size == null) {
+            log.info("Initial window size: system default");
+            return;
         }
         driver.manage().window().setSize(size);
         log.info("Initial window size: {}x{}", size.width, size.height);

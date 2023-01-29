@@ -17,6 +17,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.math.NumberUtils;
+import org.openqa.selenium.Dimension;
 import org.apache.commons.lang3.ArrayUtils;
 import org.openqa.selenium.UnexpectedAlertBehaviour;
 import org.openqa.selenium.remote.CapabilityType;
@@ -538,5 +540,16 @@ public class DriverOptions {
             eachCapabilities(capsMap, (key, value) -> log.info("- {}: {}", key, value));
         }
         return caps;
+    }
+
+    @SuppressWarnings("javadoc")
+    public Dimension getSize(int defaultWidth, int defaultHeight) {
+        if (has(DriverOption.WIDTH) || has(DriverOption.HEIGHT)) {
+            int width = NumberUtils.toInt(get(DriverOption.WIDTH), defaultWidth);
+            int height = NumberUtils.toInt(get(DriverOption.HEIGHT), defaultHeight);
+            return new Dimension(width, height);
+        } else {
+            return null;
+        }
     }
 }
