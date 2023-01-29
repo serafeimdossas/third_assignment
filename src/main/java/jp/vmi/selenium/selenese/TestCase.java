@@ -31,7 +31,7 @@ import static jp.vmi.selenium.selenese.result.Success.*;
  * </p>
  * @see <a href="https://github.com/davehunt/selenium-ide-flowcontrol">A flow control plugin for Selenium IDE</a>
  */
-public class TestCase implements Selenese, ITestCase, IHtmlResultTestCase {
+public class TestCase implements Selenese, ITestCase, IHtmlResultTestTarget {
 
     private SourceType sourceType = SourceType.SELENESE;
     private String filename = null;

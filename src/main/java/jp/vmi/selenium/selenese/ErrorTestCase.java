@@ -11,7 +11,7 @@ import jp.vmi.selenium.selenese.utils.LogRecorder;
 /**
  * Test-case with errrors.
  */
-public class ErrorTestCase extends ErrorSource implements ITestCase, IHtmlResultTestCase {
+public class ErrorTestCase extends ErrorSource implements ITestCase, IHtmlResultTestTarget {
 
     private LogRecorder logRecorder = null;
 
