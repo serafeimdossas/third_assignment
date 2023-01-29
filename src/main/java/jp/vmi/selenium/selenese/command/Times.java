@@ -58,19 +58,6 @@ public class Times extends BlockStartImpl {
         return true;
     }
 
-    private static long getLongValue(Context context, String s) {
-        return ((Number) context.executeScript("return (" + s + ")")).longValue();
-    }
-
-    private static long getLoopLimit(Context context, String[] args, int index) {
-        if (index >= args.length)
-            return Long.MAX_VALUE;
-        String s = args[index];
-        if (s == null || s.isEmpty())
-            return Long.MAX_VALUE;
-        return getLongValue(context, s);
-    }
-
     @Override
     protected Result executeImpl(Context context, String... curArgs) {
         long times = getLongValue(context, curArgs[ARG_TIMES]);

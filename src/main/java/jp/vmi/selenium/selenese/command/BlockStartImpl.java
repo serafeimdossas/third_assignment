@@ -20,4 +20,19 @@ public abstract class BlockStartImpl extends AbstractCommand implements BlockSta
     public void setBlockEnd(BlockEnd blockEnd) {
         this.blockEnd = blockEnd;
     }
+
+    @SuppressWarnings("javadoc")
+    public static long getLongValue(Context context, String s) {
+        return ((Number) context.executeScript("return (" + s + ")")).longValue();
+    }
+
+    @SuppressWarnings("javadoc")
+    public static long getLoopLimit(Context context, String[] args, int index) {
+        if (index >= args.length)
+            return Long.MAX_VALUE;
+        String s = args[index];
+        if (s == null || s.isEmpty())
+            return Long.MAX_VALUE;
+        return getLongValue(context, s);
+    }
 }
