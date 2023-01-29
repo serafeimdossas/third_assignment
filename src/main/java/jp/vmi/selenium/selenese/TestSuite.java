@@ -243,4 +243,19 @@ public class TestSuite implements Selenese, ITreedFileGenerator, ITestSuite, IHt
     public String toString() {
         return toStringImpl("TestSuite");
     }
+
+    @Override
+    public String getFilename() {
+        return null;
+    }
+
+    @Override
+    public CommandList getCommandList() {
+        return null;
+    }
+
+    @Override
+    public CommandResultList getResultList() {
+        return null;
+    }
 }

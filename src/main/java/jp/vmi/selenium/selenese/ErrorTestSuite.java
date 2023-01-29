@@ -48,4 +48,14 @@ public class ErrorTestSuite extends ErrorSource implements ITreedFileGenerator, 
     public Result execute(Selenese parent, Context context) throws InvalidSeleneseException {
         return super.execute(parent, context);
     }
+
+    @Override
+    public CommandList getCommandList() {
+        return null;
+    }
+
+    @Override
+    public CommandResultList getResultList() {
+        return null;
+    }
 }
