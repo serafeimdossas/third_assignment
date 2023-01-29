@@ -1,6 +1,6 @@
 package jp.vmi.selenium.selenese;
 
-import jp.vmi.html.result.IHtmlResultTestCase;
+import jp.vmi.html.result.IHtmlResultTestTarget;
 import jp.vmi.junit.result.ITestCase;
 import jp.vmi.selenium.selenese.command.CommandList;
 import jp.vmi.selenium.selenese.inject.ExecuteTestCase;

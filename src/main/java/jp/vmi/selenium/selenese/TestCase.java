@@ -6,7 +6,7 @@ import java.util.function.Function;
 
 import org.apache.commons.io.FilenameUtils;
 
-import jp.vmi.html.result.IHtmlResultTestCase;
+import jp.vmi.html.result.IHtmlResultTestTarget;
 import jp.vmi.junit.result.ITestCase;
 import jp.vmi.selenium.selenese.command.BlockEnd;
 import jp.vmi.selenium.selenese.command.BlockStart;
